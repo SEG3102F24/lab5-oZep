@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, ReactiveFormsModule } from "@angular/forms";
-import {EmployeeService} from "../service/employee.service";
 import { Router, RouterLink } from "@angular/router";
 import {Employee} from "../model/employee";
+import { EmployeeService } from '../service/employee.service';
 
 @Component({
     selector: 'app-employee',
@@ -32,12 +32,14 @@ export class EmployeeComponent {
   get email(): AbstractControl<string> {return <AbstractControl<string>>this.employeeForm.get('email'); }
 
   onSubmit() {
-    const employee: Employee = new Employee(this.name.value,
-      new Date(this.dateOfBirth.value),
+    const employee: Employee = new Employee(
+      this.name.value,
+      new Date(this.dateOfBirth.value).toISOString(),
       this.city.value,
       this.salary.value,
       this.gender.value,
       this.email.value);
+    console.log(employee);
     this.employeeService.addEmployee(employee);
     this.employeeForm.reset();
     this.router.navigate(['/employees']).then(() => {});

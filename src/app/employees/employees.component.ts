@@ -12,4 +12,5 @@ import { NgFor, AsyncPipe, DatePipe } from '@angular/common';
 })
 export class EmployeesComponent {
   protected employees: EmployeeService = inject(EmployeeService);
+  protected employeeList = this.employees.getEmployees();
 }
