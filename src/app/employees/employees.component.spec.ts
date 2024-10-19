@@ -1,26 +1,30 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EmployeesComponent } from './employees.component';
 import { EmployeeService } from '../service/employee.service';
-import { Firestore } from '@angular/fire/firestore';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { environment } from '../../environments/environment';
+import { CommonModule } from '@angular/common';
+import { of } from 'rxjs';
 
 describe('EmployeesComponent', () => {
+  let component: EmployeesComponent;
+  let fixture: ComponentFixture<EmployeesComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EmployeesComponent],
-      providers: [EmployeeService],
       imports: [
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideFirestore(() => getFirestore())
+        EmployeesComponent,
+        CommonModule,
+      ],
+      providers: [
+        { provide: EmployeeService, useValue: { getEmployees: () => of([]) } }
       ]
     }).compileComponents();
+
+    fixture = TestBed.createComponent(EmployeesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    const fixture = TestBed.createComponent(EmployeesComponent);
-    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });
